@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicios QR</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; background: #f4f4f4; }
+    h1 { text-align: center; }
+    .card { background: white; padding: 1.5rem; border-radius: 10px; margin: 1rem auto; max-width: 500px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    button, select, input[type="file"] { margin-top: 1rem; display: block; width: 100%; padding: 0.5rem; }
+    textarea, input[type="text"] { width: 100%; padding: 0.5rem; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Servicios</h1>
+
+  <div class="card">
+    <h2>Consultar artículo</h2>
+    <label for="consulta">¿Qué artículo deseas consultar?</label>
+    <textarea id="consulta" rows="3"></textarea>
+    <button onclick="enviarConsulta()">Enviar a WhatsApp</button>
+  </div>
+
+  <div class="card">
+    <h2>Impresión</h2>
+    <label for="archivo">Subir documento</label>
+    <input type="file" id="archivo" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.xls,.xlsx" />
+
+    <label for="color">Color</label>
+    <select id="color">
+      <option value="Color">Color</option>
+      <option value="Blanco y negro">Blanco y negro</option>
+    </select>
+
+    <label for="tamano">Tamaño de impresión</label>
+    <select id="tamano">
+      <option value="Carta">Carta</option>
+      <option value="Oficio">Oficio</option>
+    </select>
+
+    <label for="papel">Tipo de papel</label>
+    <select id="papel">
+      <option value="Normal">Normal</option>
+      <option value="Opalina">Opalina</option>
+      <option value="Fotográfico">Fotográfico</option>
+      <option value="Pegatina">Pegatina</option>
+    </select>
+
+    <button onclick="enviarImpresion()">Enviar a WhatsApp</button>
+  </div>
+
+  <script>
+    const telefono = '529981040547';
+
+    function enviarConsulta() {
+      const consulta = document.getElementById('consulta').value;
+      const url = `https://wa.me/${telefono}?text=Hola,%20quiero%20consultar%20el%20siguiente%20art%C3%ADculo:%20${encodeURIComponent(consulta)}`;
+      window.open(url, '_blank');
+    }
+
+    function enviarImpresion() {
+      const archivo = document.getElementById('archivo').files[0];
+      const color = document.getElementById('color').value;
+      const tamano = document.getElementById('tamano').value;
+      const papel = document.getElementById('papel').value;
+
+      if (!archivo) {
+        alert("Por favor, sube un archivo.");
+        return;
+      }
+
+      const mensaje = `Hola,%20quiero%20imprimir%20el%20siguiente%20documento:%0A-%20Nombre:%20${encodeURIComponent(archivo.name)}%0A-%20Color:%20${encodeURIComponent(color)}%0A-%20Tamaño:%20${encodeURIComponent(tamano)}%0A-%20Tipo%20de%20papel:%20${encodeURIComponent(papel)}`;
+      const url = `https://wa.me/${telefono}?text=${mensaje}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
